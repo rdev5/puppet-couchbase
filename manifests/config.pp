@@ -131,7 +131,7 @@ class couchbase::config (
   concat::fragment { "30_${server_group}_couchbase_cluster_rebalance":
     order   => "30-${server_group}-cluster-rebalance",
     target  => $::couchbase::params::cluster_script,
-    content => template('couchbase-cluster-rebalance.sh'),
+    content => template('couchbase-cluster-rebalance.sh.erb'),
     notify  => Exec['couchbase-cluster-setup'],
   } ->
 
