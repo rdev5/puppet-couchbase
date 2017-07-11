@@ -127,6 +127,13 @@ class couchbase::config (
   # Collect cluster node entries for config (from stored configs & PuppetDB)
   Couchbase::Couchbasenode <<| server_group == $server_group |>> ->
 
+  # Rebalance all nodes that have been added via `server-add`
+  concat::fragment { "30_${server_group}_couchbase_cluster_rebalance":
+    order   => "30-${server_group}-cluster-rebalance",
+    target  => $::couchbase::params::cluster_script,
+    content => template('couchbase-cluster-rebalance.sh'),
+    notify  => Exec['couchbase-cluster-setup'],
+  } ->
 
   exec { 'couchbase-cluster-setup':
     path        => ['/usr/local/bin', '/usr/bin/', '/sbin', '/bin', '/usr/sbin',
