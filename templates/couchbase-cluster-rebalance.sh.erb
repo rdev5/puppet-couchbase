@@ -1,0 +1,3 @@
+
+# Rebalance entire cluster after adding nodes
+/opt/couchbase/bin/couchbase-cli rebalance -c <%= @server_name %>:8091 -u '<%= @user %>' -p '<%= @password %>'
